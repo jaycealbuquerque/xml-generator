@@ -1,0 +1,27 @@
+{
+  "name": "xml-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaycealbuquerque/xml-generator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaycealbuquerque/xml-generator/issues"
+  },
+  "homepage": "https://github.com/jaycealbuquerque/xml-generator#readme",
+  "devDependencies": {
+    "@types/node": "^20.3.1",
+    "tsup": "^7.0.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.3",
+    "xmlbuilder": "15.1.1"
+  }
+}
