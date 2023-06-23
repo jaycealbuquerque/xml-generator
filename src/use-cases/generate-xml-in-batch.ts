@@ -1,4 +1,7 @@
 import dayjs from 'dayjs'
+import fs from "fs"
+import { XMLBuilder } from '../provider/XmlBuilder'
+
 
 
 interface GenerateXmlInBatchUseCaseRequest {
@@ -14,19 +17,43 @@ export class GenerateXmlInBatchUseCase {
     serieFinal,
     cnpj }: GenerateXmlInBatchUseCaseRequest) {
 
+    // const numeros = serieInicial.split(/\d/,)
+    const [serieIniCarac, serieIniNum] = serieInicial.match(/[a-zA-Z]+|\d+/g)
+    const [serieFinCarac, serieFinNum] = serieFinal.match(/[a-zA-Z]+|\d+/g)
 
+
+
+    if (serieIniCarac != serieFinCarac) {
+      return new Error("serie divergente.")
+    }
     const dataHoje = dayjs().format('YYYY-MM-DD')
-    const seloInicial = parseInt(serieInicial.slice(2));
-    const seloFinal = parseInt(serieFinal.slice(2));
+
+    const seloInicial = parseInt(serieIniNum);
+    const seloFinal = parseInt(serieFinNum);
+
     if (seloInicial > seloFinal) {
       return new Error("serie inicial não pode ser maior que a seria final.")
     }
 
-    return {
-      dataHoje,
+
+    const numeroAtendimento = "20230612010004"
+    const chave = "20230612"
+
+
+
+    const feed = XMLBuilder({
       seloInicial,
       seloFinal,
+      chave,
+      serieIniCarac,
+      dataAtendimento,
+      numeroAtendimento,
       cnpj
-    }
+    })
+
+
+    fs.writeFileSync(`${dataAtendimento}.xml`, feed)
+
+
   }
 }
