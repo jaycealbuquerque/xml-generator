@@ -1,5 +1,6 @@
 import express from 'express'
 import { generateXmlRoutes } from './controller/routes'
+import { env } from './env'
 
 const app = express()
 
@@ -7,4 +8,4 @@ app.use(express.json())
 
 app.use(generateXmlRoutes)
 
-app.listen(3333, () => console.log('🚀 Server Running!'))
+app.listen(env.PORT, () => console.log('🚀 Server Running!'))
