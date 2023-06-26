@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import fs from 'fs'
 import { XMLBuilder } from '../provider/xml-builder'
 import { ServiceNumberGenerator } from '../provider/ service-number-generator'
+import { prisma } from '../lib/prisma'
 
 interface GenerateXmlInBatchUseCaseRequest {
   dataAtendimento: String
@@ -33,29 +34,21 @@ export class GenerateXmlInBatchUseCase {
       return new Error('serie inicial não pode ser maior que a seria final.')
     }
 
-    const numeroAtendimento = '20230612010004'
-    const chave = '20230612'
+    // const numeroAtendimento = '20230612010004'
+    // const chave = '20230612'
 
-    const feed = XMLBuilder({
-      seloInicial,
-      seloFinal,
-      chave,
-      serieIniCarac,
-      dataAtendimento,
-      numeroAtendimento,
-      cnpj,
-    })
+    // const feed = XMLBuilder({
+    //   seloInicial,
+    //   seloFinal,
+    //   chave,
+    //   serieIniCarac,
+    //   dataAtendimento,
+    //   numeroAtendimento,
+    //   cnpj,
+    // })
 
-    fs.writeFileSync(`${dataAtendimento}.xml`, feed)
+    // fs.writeFileSync(`${dataAtendimento}.xml`, feed)
 
-    const gerador = new ServiceNumberGenerator()
-    // const numero = '20230624999998'
-    // const numeroGerado = gerador.gerarNumeroAtendimento(numero)
-    // const novoGerado = gerador.gerarNumeroAtendimento(numeroGerado)
-    // console.log(numeroGerado, novoGerado)
-    // const dataInformada = dayjs('2023-04-11')
-    // const antendimentoInformado =
-    //   gerador.gerarNumeroAtendimentoComData(dataInformada)
-    // console.log(antendimentoInformado)
+    // return numero
   }
 }

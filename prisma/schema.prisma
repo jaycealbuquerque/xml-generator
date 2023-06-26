@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Atendimentos {
+  id                 String   @id @unique @default(uuid())
+  numero_atendimento BigInt   @unique
+  created_at         DateTime @default(now())
+
+  @@map("atendimentos")
+}
+
+model EstoqueSelos {
+  numeroSerie     String   @id
+  codigoSelo      Int
+  status          Int
+  dataRecebimento DateTime @default(now())
+
+  @@map("estoque-selos")
+}
