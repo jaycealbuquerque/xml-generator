@@ -13,6 +13,7 @@ datasource db {
 model Atendimentos {
   id                 String   @id @unique @default(uuid())
   numero_atendimento BigInt   @unique
+  data_atendimento   String
   created_at         DateTime @default(now())
 
   @@map("atendimentos")
