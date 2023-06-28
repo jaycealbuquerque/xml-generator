@@ -21,27 +21,21 @@ export class ServiceNumberGenerator {
     }
   }
 
-  public gerarNumeroAtendimento(numero?: string): string {
-    const dataAtual: dayjs.Dayjs = dayjs()
+  public incrementaNumeroAtendimento(numero?: string): string {
+    const doDia = numero.substr(0, 8)
+    const contadorSt: string = numero.substr(-6)
 
-    const numeroDiaAtual: string = this.obterNumeroDia(dataAtual)
-
-    if (!numero || !numero.startsWith(numeroDiaAtual)) {
-      this.contador = 1000
-    } else {
-      const contadorStr: string = numero.substr(-6)
-      this.contador = parseInt(contadorStr, 10)
-    }
+    this.contador = parseInt(contadorSt, 10)
 
     this.incrementarContador()
 
     const contadorStr: string = this.contador.toString().padStart(6, '0')
-    const numeroGerado: string = numeroDiaAtual + contadorStr
+    const numeroGerado: string = doDia + contadorStr
 
     return numeroGerado
   }
 
-  public gerarNumeroAtendimentoComData(data: dayjs.Dayjs): string {
+  public geraNumeroAtendimento(data: dayjs.Dayjs): string {
     const numeroDia: string = this.obterNumeroDia(data)
     this.contador = 1000
     this.incrementarContador()
