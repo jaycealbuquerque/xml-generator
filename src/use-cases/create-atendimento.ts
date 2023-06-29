@@ -1,16 +1,17 @@
 import dayjs from 'dayjs'
 import { ServiceNumberGenerator } from '../provider/ service-number-generator'
-import { PrismaAtendimentosRepository } from '../repositories/prisma/prisma-atendimentos-repository'
+import { AtendimentosRepository } from '../repositories/atendimentos-repository'
 
 interface CreateAtendimentoUseCaseResponse {
   dataAtendimento: string
 }
 export class CreateAtendimentoUseCase {
+  constructor(private atendimentosRepository: AtendimentosRepository) {}
+
   async execute({ dataAtendimento }: CreateAtendimentoUseCaseResponse) {
-    const prismaAtendimentosRepository = new PrismaAtendimentosRepository()
     const serviceNumberGenerator = new ServiceNumberGenerator()
 
-    const atendimentoExist = await prismaAtendimentosRepository.findAndOrder(
+    const atendimentoExist = await this.atendimentosRepository.findAndOrder(
       dataAtendimento,
     )
 
@@ -22,7 +23,7 @@ export class CreateAtendimentoUseCase {
       ? serviceNumberGenerator.geraNumeroAtendimento(date)
       : serviceNumberGenerator.incrementaNumeroAtendimento(numeroAtendimento)
 
-    const createAtendimento = await prismaAtendimentosRepository.create(
+    const createAtendimento = await this.atendimentosRepository.create(
       novoNumeroAtendimento,
       dataAtendimento,
     )

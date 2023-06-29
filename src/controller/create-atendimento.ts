@@ -1,11 +1,11 @@
 import { Request, Response } from 'express'
-import { CreateAtendimentoUseCase } from '../use-cases/create-atendimento'
+import { makeCreateAtendimentoUseCase } from '../use-cases/factories/make-create-atendimento'
 
 export class CreateAtendimentoController {
   async handle(request: Request, response: Response) {
     const { dataAtendimento } = request.body
 
-    const createAtendimentoUseCase = new CreateAtendimentoUseCase()
+    const createAtendimentoUseCase = makeCreateAtendimentoUseCase()
 
     const createAtendimento = await createAtendimentoUseCase.execute({
       dataAtendimento,

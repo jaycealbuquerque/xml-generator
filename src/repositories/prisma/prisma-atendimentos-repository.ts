@@ -1,8 +1,8 @@
-import { atendimentosRepository } from '../atendimentos-repository'
+import { AtendimentosRepository } from '../atendimentos-repository'
 import { prisma } from '../../lib/prisma'
 import dayjs from 'dayjs'
 
-export class PrismaAtendimentosRepository implements atendimentosRepository {
+export class PrismaAtendimentosRepository implements AtendimentosRepository {
   async findAndOrder(dataAtendimento: string) {
     const atendimento = await prisma.atendimentos.findFirst({
       orderBy: { numero_atendimento: 'desc' },
