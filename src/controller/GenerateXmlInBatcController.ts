@@ -1,13 +1,9 @@
-import { Request, Response } from "express";
-import { GenerateXmlInBatchUseCase } from "../use-cases/generate-xml-in-batch";
-
+import { Request, Response } from 'express'
+import { GenerateXmlInBatchUseCase } from '../use-cases/generate-xml-in-batch'
 
 export class GenerateXmlInBatcController {
   async handle(request: Request, response: Response) {
-    const { dataAtendimento,
-      serieInicial,
-      serieFinal,
-      cnpj } = request.body
+    const { dataAtendimento, serieInicial, serieFinal, cnpj } = request.body
 
     const generateXmlInBatchUseCase = new GenerateXmlInBatchUseCase()
 
@@ -15,12 +11,8 @@ export class GenerateXmlInBatcController {
       dataAtendimento,
       serieInicial,
       serieFinal,
-      cnpj
+      cnpj,
     })
-
-    if (generateXmlInBatc instanceof Error) {
-      return response.status(400).json(generateXmlInBatc.message)
-    }
 
     return response.json(generateXmlInBatc)
   }

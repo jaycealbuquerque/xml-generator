@@ -8,7 +8,6 @@ export class PrismaAtendimentosRepository implements AtendimentosRepository {
       orderBy: { numero_atendimento: 'desc' },
       where: { data_atendimento: { equals: dataAtendimento } },
     })
-
     return atendimento
   }
 

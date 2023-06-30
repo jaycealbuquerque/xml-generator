@@ -3,6 +3,7 @@ import fs from 'fs'
 import { XMLBuilder } from '../provider/xml-builder'
 import { ServiceNumberGenerator } from '../provider/ service-number-generator'
 import { prisma } from '../lib/prisma'
+import { AppError } from '../erros/AppError'
 
 interface GenerateXmlInBatchUseCaseRequest {
   dataAtendimento: String
@@ -23,7 +24,7 @@ export class GenerateXmlInBatchUseCase {
     const [serieFinCarac, serieFinNum] = serieFinal.match(/[a-zA-Z]+|\d+/g)
 
     if (serieIniCarac != serieFinCarac) {
-      return new Error('serie divergente.')
+      throw new AppError('serie divergente.')
     }
     const dataHoje = dayjs().format('YYYY-MM-DD')
 
@@ -31,7 +32,7 @@ export class GenerateXmlInBatchUseCase {
     const seloFinal = parseInt(serieFinNum)
 
     if (seloInicial > seloFinal) {
-      return new Error('serie inicial não pode ser maior que a seria final.')
+      throw new AppError('serie inicial não pode ser maior que a seria final.')
     }
 
     // const numeroAtendimento = '20230612010004'
