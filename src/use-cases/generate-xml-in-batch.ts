@@ -5,12 +5,13 @@ import { ServiceNumberGenerator } from '../provider/ service-number-generator'
 import { prisma } from '../lib/prisma'
 import { AppError } from '../erros/AppError'
 import { validateCNPJ } from '../provider/validate-CNPJ'
+import { validateCPF } from '../provider/validate-CPF'
 
 interface GenerateXmlInBatchUseCaseRequest {
   dataAtendimento: String
   serieInicial: String
   serieFinal: String
-  cnpj: String
+  cpf: String
 }
 
 export class GenerateXmlInBatchUseCase {
@@ -18,7 +19,7 @@ export class GenerateXmlInBatchUseCase {
     dataAtendimento,
     serieInicial,
     serieFinal,
-    cnpj,
+    cpf,
   }: GenerateXmlInBatchUseCaseRequest) {
     // const numeros = serieInicial.split(/\d/,)
     const [serieIniCarac, serieIniNum] = serieInicial.match(/[a-zA-Z]+|\d+/g)
@@ -51,9 +52,15 @@ export class GenerateXmlInBatchUseCase {
 
     // fs.writeFileSync(`${dataAtendimento}.xml`, feed)
 
-    const valido = validateCNPJ(cnpj)
+    // const valido = validateCNPJ(cnpj)
+    // if (!valido) {
+    //   throw new AppError('CNPJ invalido.')
+    // }
+    // "cnpj": "04798469001140"
+
+    const valido = validateCPF(cpf)
     if (!valido) {
-      throw new AppError('CNPJ invalido.')
+      throw new AppError('CPF invalido.')
     }
 
     return valido

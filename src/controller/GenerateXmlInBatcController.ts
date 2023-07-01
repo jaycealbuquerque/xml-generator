@@ -3,7 +3,7 @@ import { GenerateXmlInBatchUseCase } from '../use-cases/generate-xml-in-batch'
 
 export class GenerateXmlInBatcController {
   async handle(request: Request, response: Response) {
-    const { dataAtendimento, serieInicial, serieFinal, cnpj } = request.body
+    const { dataAtendimento, serieInicial, serieFinal, cpf } = request.body
 
     const generateXmlInBatchUseCase = new GenerateXmlInBatchUseCase()
 
@@ -11,7 +11,7 @@ export class GenerateXmlInBatcController {
       dataAtendimento,
       serieInicial,
       serieFinal,
-      cnpj,
+      cpf,
     })
 
     return response.json(generateXmlInBatc)
