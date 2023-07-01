@@ -1,4 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express'
+import 'express-async-errors'
 import { generateXmlRoutes } from './controller/routes'
 import { env } from './env'
 import { AppError } from './erros/AppError'

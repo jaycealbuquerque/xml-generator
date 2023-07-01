@@ -4,6 +4,7 @@ import { XMLBuilder } from '../provider/xml-builder'
 import { ServiceNumberGenerator } from '../provider/ service-number-generator'
 import { prisma } from '../lib/prisma'
 import { AppError } from '../erros/AppError'
+import { validateCNPJ } from '../provider/validate-CNPJ'
 
 interface GenerateXmlInBatchUseCaseRequest {
   dataAtendimento: String
@@ -23,7 +24,7 @@ export class GenerateXmlInBatchUseCase {
     const [serieIniCarac, serieIniNum] = serieInicial.match(/[a-zA-Z]+|\d+/g)
     const [serieFinCarac, serieFinNum] = serieFinal.match(/[a-zA-Z]+|\d+/g)
 
-    if (serieIniCarac != serieFinCarac) {
+    if (serieIniCarac !== serieFinCarac) {
       throw new AppError('serie divergente.')
     }
     const dataHoje = dayjs().format('YYYY-MM-DD')
@@ -50,6 +51,11 @@ export class GenerateXmlInBatchUseCase {
 
     // fs.writeFileSync(`${dataAtendimento}.xml`, feed)
 
-    // return numero
+    const valido = validateCNPJ(cnpj)
+    if (!valido) {
+      throw new AppError('CNPJ invalido.')
+    }
+
+    return valido
   }
 }
