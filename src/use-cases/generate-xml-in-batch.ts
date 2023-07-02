@@ -52,17 +52,28 @@ export class GenerateXmlInBatchUseCase {
 
     // fs.writeFileSync(`${dataAtendimento}.xml`, feed)
 
-    // const valido = validateCNPJ(cnpj)
-    // if (!valido) {
-    //   throw new AppError('CNPJ invalido.')
-    // }
-    // "cnpj": "04798469001140"
+    function validarDocumento(documento: string): void {
+      const digitos = documento.replace(/[^\d]+/g, '')
 
-    const valido = validateCPF(cpf)
-    if (!valido) {
-      throw new AppError('CPF invalido.')
+      if (digitos.length === 11) {
+        const cpfValido = validateCPF(digitos)
+        if (cpfValido) {
+          throw new AppError('CPF válido')
+        } else {
+          throw new AppError('CPF inválido')
+        }
+      } else if (digitos.length === 14) {
+        const cnpjValido = validateCNPJ(digitos)
+        if (cnpjValido) {
+          throw new AppError('CNPJ válido')
+        } else {
+          throw new AppError('CNPJ inválido')
+        }
+      } else {
+        throw new AppError('Número de dígitos inválido')
+      }
     }
 
-    return valido
+    return validarDocumento(cpf)
   }
 }
