@@ -1,14 +1,11 @@
 import { Router } from 'express'
-import { GenerateXmlInBatcController } from './GenerateXmlInBatcController'
+import { GenerateXmlController } from './GenerateXmlController'
 import { DownloadXmlController } from './download-xml-controller'
 import { CreateAtendimentoController } from './create-atendimento'
 
 const generateXmlRoutes = Router()
 
-generateXmlRoutes.post(
-  '/generateXmlInBatc',
-  new GenerateXmlInBatcController().handle,
-)
+generateXmlRoutes.post('/generateXml', new GenerateXmlController().handle)
 generateXmlRoutes.post('/download', new DownloadXmlController().handle)
 generateXmlRoutes.post(
   '/atendimentos',

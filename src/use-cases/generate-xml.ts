@@ -1,25 +1,26 @@
-import dayjs from 'dayjs'
 import fs from 'fs'
 import { XMLBuilder } from '../provider/xml-builder'
-import { ServiceNumberGenerator } from '../provider/ service-number-generator'
-import { prisma } from '../lib/prisma'
 import { AppError } from '../erros/AppError'
 import { validateCNPJ } from '../provider/validate-CNPJ'
 import { validateCPF } from '../provider/validate-CPF'
 
 interface GenerateXmlInBatchUseCaseRequest {
+  numeroAtendimento: String
+  chave: String
   dataAtendimento: String
   serieInicial: String
   serieFinal: String
-  cpf: String
+  documento: String
 }
 
-export class GenerateXmlInBatchUseCase {
+export class GenerateXmlUseCase {
   async execute({
+    numeroAtendimento,
+    chave,
     dataAtendimento,
     serieInicial,
     serieFinal,
-    cpf,
+    documento,
   }: GenerateXmlInBatchUseCaseRequest) {
     // const numeros = serieInicial.split(/\d/,)
     const [serieIniCarac, serieIniNum] = serieInicial.match(/[a-zA-Z]+|\d+/g)
@@ -28,7 +29,6 @@ export class GenerateXmlInBatchUseCase {
     if (serieIniCarac !== serieFinCarac) {
       throw new AppError('serie divergente.')
     }
-    const dataHoje = dayjs().format('YYYY-MM-DD')
 
     const seloInicial = parseInt(serieIniNum)
     const seloFinal = parseInt(serieFinNum)
@@ -36,21 +36,6 @@ export class GenerateXmlInBatchUseCase {
     if (seloInicial > seloFinal) {
       throw new AppError('serie inicial não pode ser maior que a seria final.')
     }
-
-    // const numeroAtendimento = '20230612010004'
-    // const chave = '20230612'
-
-    // const feed = XMLBuilder({
-    //   seloInicial,
-    //   seloFinal,
-    //   chave,
-    //   serieIniCarac,
-    //   dataAtendimento,
-    //   numeroAtendimento,
-    //   cnpj,
-    // })
-
-    // fs.writeFileSync(`${dataAtendimento}.xml`, feed)
 
     function validarDocumento(documento: string): void {
       const digitos = documento.replace(/[^\d]+/g, '')
@@ -74,6 +59,18 @@ export class GenerateXmlInBatchUseCase {
       }
     }
 
-    return validarDocumento(cpf)
+    const feed = await XMLBuilder({
+      seloInicial,
+      seloFinal,
+      chave,
+      serieIniCarac,
+      dataAtendimento,
+      numeroAtendimento,
+      documento,
+    })
+
+    fs.writeFileSync(`./src/tmp/${numeroAtendimento}.xml`, feed)
+
+    return `xml gerado com sucesso!`
   }
 }
