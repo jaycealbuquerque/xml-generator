@@ -1,19 +1,18 @@
-import { Request, Response } from "express";
-
-
-
+import { Request, Response } from 'express'
 
 export class DownloadXmlController {
   async handle(request: Request, response: Response) {
-    const { arquivoXml } = request.body
+    // const { arquivoXml } = request.body
+    const id = request.params.id
 
-    // const arquivoXml = './2023-07-17.xml'
+    const arquivoXml = `./src/tmp/${id}.xml`
 
-    return response.download(arquivoXml, `${arquivoXml}`, (err) => {
+    return response.download(arquivoXml, `${id}.xml`, (err) => {
       if (err) {
-        return response.status(400).json(`Erro ao realizar o download: ${err.message}`)
+        return response
+          .status(400)
+          .json(`Erro ao realizar o download: ${err.message}`)
       }
-    });
-
+    })
   }
 }

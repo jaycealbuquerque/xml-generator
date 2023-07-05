@@ -6,7 +6,7 @@ import { CreateAtendimentoController } from './create-atendimento'
 const generateXmlRoutes = Router()
 
 generateXmlRoutes.post('/generateXml', new GenerateXmlController().handle)
-generateXmlRoutes.post('/download', new DownloadXmlController().handle)
+generateXmlRoutes.get('/download/:id', new DownloadXmlController().handle)
 generateXmlRoutes.post(
   '/atendimentos',
   new CreateAtendimentoController().handle,
