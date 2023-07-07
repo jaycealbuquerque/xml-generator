@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { GenerateXmlController } from './GenerateXmlController'
+import { GenerateXmlController } from './generate-xml-controller'
 import { DownloadXmlController } from './download-xml-controller'
 import { CreateAtendimentoController } from './create-atendimento'
 
