@@ -3,9 +3,9 @@ import { XMLBuilder } from '../provider/xml-builder'
 import { AppError } from '../erros/AppError'
 import { validateCNPJ } from '../provider/validate-CNPJ'
 import { validateCPF } from '../provider/validate-CPF'
+import { makeCreateAtendimentoUseCase } from './factories/make-create-atendimento'
 
 interface GenerateXmlInBatchUseCaseRequest {
-  numeroAtendimento: String
   chave: String
   dataAtendimento: String
   serieInicial: String
@@ -15,7 +15,6 @@ interface GenerateXmlInBatchUseCaseRequest {
 
 export class GenerateXmlUseCase {
   async execute({
-    numeroAtendimento,
     chave,
     dataAtendimento,
     serieInicial,
@@ -58,6 +57,15 @@ export class GenerateXmlUseCase {
         throw new AppError('Número de dígitos inválido')
       }
     }
+
+    const createNumeroAtendimento = makeCreateAtendimentoUseCase()
+
+    const createAtendimento = await createNumeroAtendimento.execute({
+      dataAtendimento,
+    })
+
+    const numeroAtendimento = createAtendimento.numero_atendimento
+    console.log(numeroAtendimento)
 
     const feed = await XMLBuilder({
       seloInicial,
